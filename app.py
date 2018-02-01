@@ -7,7 +7,10 @@ configureFlaskSecretKey(app) #set our settings for flask
 @app.route('/')
 def index():
     #return 'Hello, World!'
-    return render_template('index.html')
+    if is_logged_in():
+        return redirect(url_for('dashboard'))
+    else:
+        return render_template('index.html')
 
 @app.route('/register')
 def register():
@@ -17,7 +20,12 @@ def register():
 def login():
     if request.method == 'POST':
         #do login
-        pass
+        if validate_login(request.form['username'],
+                       request.form['password']):
+            return do_login(request.form['username'])
+        else:
+            error = 'Invalid username/password'
+            return render_template('login.html', error=error)
     else:
         return render_template('login.html')
 
@@ -28,6 +36,24 @@ def dashboard():
 @app.errorhandler(404)
 def page_not_found(error):
     return "We  didn't think it be like it was but it do. We can't find that page!", 404
+
+
+def is_logged_in():
+    return 'username' in session
+
+def validate_login(username, password):
+    #validate if password for the username is correct
+    return True
+
+def do_login(username):
+    session['username'] = username
+    return redirect(url_for('dashboard')) #redirect to dashboard
+
+@app.route('/logout')
+def do_logoff():
+    if is_logged_in():
+         session.pop('username', None)
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run()

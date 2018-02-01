@@ -13,9 +13,13 @@ def index():
 def register():
     return render_template('register.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        #do login
+        pass
+    else:
+        return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():

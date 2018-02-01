@@ -1,6 +1,9 @@
 from flask import Flask, request, render_template, session, g, abort, redirect, url_for
 from config_key import configureFlaskSecretKey
+from flask_bcrypt import Bcrypt #pip install flask-bcrypt
+
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 
 configureFlaskSecretKey(app) #set our settings for flask
 
@@ -54,6 +57,8 @@ def is_logged_in():
 
 def validate_login(username, password):
     #validate if password for the username is correct
+    pw_hash = '' #get from database
+    #bcrypt.check_password_hash(pw_hash, password)
     return True
 
 def do_login(username):
@@ -70,6 +75,7 @@ def validate_registration(username, password, confirmpassword, email):
     return True
 
 def register_user(username, password, email):
+    pw_hash = bcrypt.generate_password_hash(password)
     pass
 
 if __name__ == "__main__":

@@ -14,6 +14,17 @@ def index():
 
 @app.route('/register')
 def register():
+    if request.method == 'POST':
+            #do registration
+            if validate_registration(request.form['username'], 
+                request.form['password'],
+                request.form['confirmpassword'],
+                request.form['email']):
+                register_user(request.form['username'], request.form['password'], request.form['email'])
+                return redirect(url_for('login'))
+            else:
+                error = "Invalid information."
+                return render_template('register.html', error=error)
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -54,6 +65,12 @@ def do_logoff():
     if is_logged_in():
          session.pop('username', None)
     return redirect(url_for('index'))
+
+def validate_registration(username, password, confirmpassword, email):
+    return True
+
+def register_user(username, password, email):
+    pass
 
 if __name__ == "__main__":
     app.run()

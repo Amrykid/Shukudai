@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, session, g, abort, redirect, url_for
 from config_key import configureFlaskSecretKey
-from database import configure_database_flask, create_user, get_user
+from database import configure_database_flask, create_user, get_user, add_user
 from flask_bcrypt import Bcrypt #pip install flask-bcrypt
 
 app = Flask(__name__)
@@ -98,9 +98,7 @@ def register_user(username, password, email):
     pw_hash = bcrypt.generate_password_hash(password)
 
     usr = create_user(username=username,password=password,email=email)
-    
-    db.session.add(usr)
-    db.session.commit()
+    add_user(usr)
 
 if __name__ == "__main__":
     app.run()

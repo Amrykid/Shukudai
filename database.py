@@ -12,6 +12,9 @@ UserObj = None
 db = None
 
 def configure_database_flask(app):
+    global UserObj
+    global db
+
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
     db = SQLAlchemy(app)
 
@@ -29,7 +32,11 @@ def configure_database_flask(app):
     UserObj = User
 
 def create_user(username, email, password):
-    return UserObj(usernam=username, email=email, password=password)
+    return UserObj(username=username, email=email, password=password)
 
 def get_user(username):
     return UserObj.query.filter_by(username=username).first()
+
+def add_user(usr):
+    db.session.add(usr)
+    db.session.commit()

@@ -25,13 +25,13 @@ def index():
 def register():
     if request.method == 'POST':
             #do registration
-            result, error = validate_registration(request.form['username'], 
+            result, error = validate_registration(request.form['username'].strip(), 
                 request.form['password'],
                 request.form['confirmpassword'],
-                request.form['email'])
+                request.form['email'].strip())
 
             if result:
-                register_user(request.form['username'], request.form['password'], request.form['email'])
+                register_user(request.form['username'].strip(), request.form['password'], request.form['email'].strip())
                 return redirect(url_for('login'))
             else:
                 return render_template('register.html', error=error)
@@ -43,10 +43,10 @@ def login():
 
     if request.method == 'POST':
         #do login
-        result, error = validate_login(request.form['username'],
+        result, error = validate_login(request.form['username'].strip(),
                        request.form['password'])
         if result:
-            return do_login(request.form['username'])
+            return do_login(request.form['username'].strip())
         else:
             return render_template('login.html', error=error)
     else:

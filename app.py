@@ -1,11 +1,17 @@
 from flask import Flask, request, render_template, session, g, abort, redirect, url_for
 from config_key import configureFlaskSecretKey
+from database import configure_database_flask, create_user, get_user
 from flask_bcrypt import Bcrypt #pip install flask-bcrypt
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
 configureFlaskSecretKey(app) #set our settings for flask
+
+#todo, make an actual database
+#based on tutorial here: http://docs.sqlalchemy.org/en/latest/orm/tutorial.html
+#and here http://flask-sqlalchemy.pocoo.org/2.3/quickstart/#a-minimal-application
+configure_database_flask(app)
 
 @app.route('/')
 def index():
@@ -15,18 +21,19 @@ def index():
     else:
         return render_template('index.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
             #do registration
-            if validate_registration(request.form['username'], 
+            result, error = validate_registration(request.form['username'], 
                 request.form['password'],
                 request.form['confirmpassword'],
-                request.form['email']):
+                request.form['email'])
+
+            if result:
                 register_user(request.form['username'], request.form['password'], request.form['email'])
                 return redirect(url_for('login'))
             else:
-                error = "Invalid information."
                 return render_template('register.html', error=error)
     return render_template('register.html')
 
@@ -72,11 +79,28 @@ def do_logoff():
     return redirect(url_for('index'))
 
 def validate_registration(username, password, confirmpassword, email):
-    return True
+    existing_user = get_user(username)
+
+    if existing_user is not None:
+        return (False, "Username already exists!")
+
+    if confirmpassword != password:
+        return (False, "Both passwords entered do not match!")
+
+    #todo validate email address correctly
+    if email.count('@') == 0:
+        return (False, "Email address is not correct.")
+
+
+    return (True, None) #the light is green
 
 def register_user(username, password, email):
     pw_hash = bcrypt.generate_password_hash(password)
-    pass
+
+    usr = create_user(username=username,password=password,email=email)
+    
+    db.session.add(usr)
+    db.session.commit()
 
 if __name__ == "__main__":
     app.run()

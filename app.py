@@ -100,8 +100,9 @@ def validate_registration(username, password, confirmpassword, email):
     if email.count('@') == 0:
         return (False, "Email address is not correct.")
 
-
     return (True, None) #the light is green
+
+    #todo at some point, we should sent the user an email
 
 def register_user(username, password, email):
     pw_hash = bcrypt.generate_password_hash(password)

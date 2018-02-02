@@ -43,18 +43,20 @@ def login():
 
     if request.method == 'POST':
         #do login
-        if validate_login(request.form['username'],
-                       request.form['password']):
+        result, error = validate_login(request.form['username'],
+                       request.form['password'])
+        if result:
             return do_login(request.form['username'])
         else:
-            error = 'Invalid username/password'
             return render_template('login.html', error=error)
     else:
         return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    if not is_logged_in(): return redirect(url_for("login"))
+
+    return render_template('dashboard.html', username=session['username'])
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -67,8 +69,13 @@ def is_logged_in():
 def validate_login(username, password):
     #validate if password for the username is correct
     user = get_user(username)
+    if user == None: return (False, "Invalid username")
+
     pw_hash = user.password #get from database
-    return bcrypt.check_password_hash(pw_hash, password)
+    result = bcrypt.check_password_hash(pw_hash, password)
+
+    if result: return (True, "")
+    else: return (False, "Invalid username or password") #make it ambiguous
 
 def do_login(username):
     session['username'] = username

@@ -39,6 +39,8 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if is_logged_in(): return redirect(url_for("dashboard"))
+
     if request.method == 'POST':
         #do login
         if validate_login(request.form['username'],
@@ -64,9 +66,9 @@ def is_logged_in():
 
 def validate_login(username, password):
     #validate if password for the username is correct
-    pw_hash = '' #get from database
-    #bcrypt.check_password_hash(pw_hash, password)
-    return True
+    user = get_user(username)
+    pw_hash = user.password #get from database
+    return bcrypt.check_password_hash(pw_hash, password)
 
 def do_login(username):
     session['username'] = username
@@ -97,7 +99,7 @@ def validate_registration(username, password, confirmpassword, email):
 def register_user(username, password, email):
     pw_hash = bcrypt.generate_password_hash(password)
 
-    usr = create_user(username=username,password=password,email=email)
+    usr = create_user(username=username,password=pw_hash,email=email)
     add_user(usr)
 
 if __name__ == "__main__":

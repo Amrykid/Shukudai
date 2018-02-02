@@ -25,6 +25,9 @@
 {% block content %}
     <h1 style="text-align: center">Login</h1>
     <form method="POST" id="loginForm">
+        {% if error %}
+        <p style='color: red'>{{ error }}</p>
+        {% endif %}
         <label for="username">Username:</label><br>
         <input type="text" name="username"><br>
         <label for="password">Password:</label><br>

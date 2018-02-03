@@ -7,36 +7,36 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-UserObj = None
+class SiteDatabase(object):
+    UserObj = None
+    db = None
 
-db = None
+    def configure_database_flask(self, app):
+        global UserObj
+        global db
 
-def configure_database_flask(app):
-    global UserObj
-    global db
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+        db = SQLAlchemy(app)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-    db = SQLAlchemy(app)
+        class User(db.Model):
+            id = db.Column(db.Integer, primary_key=True)
+            username = db.Column(db.String(80), unique=True, nullable=False)
+            email = db.Column(db.String(120), unique=True, nullable=False)
+            password = db.Column(db.String(18), nullable=False)
 
-    class User(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        username = db.Column(db.String(80), unique=True, nullable=False)
-        email = db.Column(db.String(120), unique=True, nullable=False)
-        password = db.Column(db.String(18), nullable=False)
+            def __repr__(self):
+                return '<User %r>' % self.username
 
-        def __repr__(self):
-            return '<User %r>' % self.username
+        db.create_all()
 
-    db.create_all()
+        UserObj = User
 
-    UserObj = User
+    def create_user(self, username, email, password):
+        return UserObj(username=username, email=email, password=password)
 
-def create_user(username, email, password):
-    return UserObj(username=username, email=email, password=password)
+    def get_user(self, username):
+        return UserObj.query.filter_by(username=username).first()
 
-def get_user(username):
-    return UserObj.query.filter_by(username=username).first()
-
-def add_user(usr):
-    db.session.add(usr)
-    db.session.commit()
+    def add_user(self, usr):
+        db.session.add(usr)
+        db.session.commit()

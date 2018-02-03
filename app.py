@@ -1,17 +1,18 @@
 from flask import Flask, request, render_template, session, g, abort, redirect, url_for
 from config_key import configureFlaskSecretKey
-from database import configure_database_flask, create_user, get_user, add_user
+from database import SiteDatabase
 from flask_bcrypt import Bcrypt #pip install flask-bcrypt
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
+database = SiteDatabase()
 
 configureFlaskSecretKey(app) #set our settings for flask
 
 #todo, make an actual database
 #based on tutorial here: http://docs.sqlalchemy.org/en/latest/orm/tutorial.html
 #and here http://flask-sqlalchemy.pocoo.org/2.3/quickstart/#a-minimal-application
-configure_database_flask(app)
+database.configure_database_flask(app)
 
 @app.route('/')
 def index():
@@ -68,7 +69,7 @@ def is_logged_in():
 
 def validate_login(username, password):
     #validate if password for the username is correct
-    user = get_user(username)
+    user = database.get_user(username)
     if user == None: return (False, "Invalid username")
 
     pw_hash = user.password #get from database
@@ -88,7 +89,7 @@ def do_logoff():
     return redirect(url_for('index'))
 
 def validate_registration(username, password, confirmpassword, email):
-    existing_user = get_user(username)
+    existing_user = database.get_user(username)
 
     if existing_user is not None:
         return (False, "Username already exists!")
@@ -107,8 +108,8 @@ def validate_registration(username, password, confirmpassword, email):
 def register_user(username, password, email):
     pw_hash = bcrypt.generate_password_hash(password)
 
-    usr = create_user(username=username,password=pw_hash,email=email)
-    add_user(usr)
+    usr = database.create_user(username=username,password=pw_hash,email=email)
+    database.add_user(usr)
 
 if __name__ == "__main__":
     app.run()

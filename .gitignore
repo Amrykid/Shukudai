@@ -106,3 +106,4 @@ venv.bak/
 .vscode
 
 /config_key.py
+*.DS_Store

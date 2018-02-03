@@ -1,6 +1,10 @@
 body {
-    background: #3c3a3a;
+    background:#191919;
     color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    width:60%;
+    margin:auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -8,9 +12,49 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p, input[type="text"], label {
-    font-family: 'Roboto', sans-serif;
 }
 
-.content {
-    width: 100%;
+/* HEADER */
+header{
+	background: url(../static/images/fillerLogo.gif) no-repeat top left;
+	background-size: contain;
+	height:80px;
+	}
+header h1{
+	margin-left: 90px;
+	margin-bottom: 0;
+	font-size: 2.2em;
+	}
+header p{
+	margin:0;
+	margin-left: 90px;
+	padding:0;
+	}
+
+/* NAVIGATION */
+nav{
+	position:absolute;
+	top:0;
+	right:0;
+	background-color: #3d3d3d;
+	padding:5px;
+	border-radius: 5px;
 }
+nav a{
+	color:#a8ccff;
+	text-decoration: none;
+}
+nav a:hover{
+	color:#8cb8ff;
+	text-decoration: underline;
+}
+
+/* CONTENT */
+#content{
+	width: 600px;
+	margin: auto;
+}
+
+/* FOOTER */
+footer{
+	}

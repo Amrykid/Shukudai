@@ -1,17 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Shukudai - A homework tracker{% endblock %}
-{% block head %}
-    {{ super() }}
-    <style type="text/css">
-        h1.greetingHeader {
-            text-align: center;
-        }
-        p.greetingParagraph {
-            text-align: center;
-        }
-    </style>
-{% endblock %}
+{% block title %}Shukudai{% endblock %}
 {% block content %}
-    <h1 class="greetingHeader">Hi!</h1>
-    <p class="greetingParagraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <h2>Welcome to Shukudai</h2>
+    <p>Thank you for visiting! Shudukai is a home tracker made by students for students.</p> 
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus erat justo, dictum ut quam sit amet, bibendum tristique lectus. Donec vel interdum odio. Nullam mollis, sem nec condimentum pellentesque, dolor ligula iaculis felis, id ultrices urna risus id elit. Sed elementum dui et purus rhoncus bibendum.</p>
+	<p>You can start tracking here:</p>
+	<a href="/register.html" class="signUpBtn">Sign up</a>
 {% endblock %}

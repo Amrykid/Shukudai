@@ -4,18 +4,30 @@
     <!-- http://jinja.pocoo.org/docs/2.10/templates/#base-template -->
     {% block head %}
     <link rel="stylesheet" href="static/style.css" />
-    <title>{% block title %}{% endblock %} - My Webpage</title>
+    <title>{% block title %}{% endblock %}</title>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
     </style> 
     {% endblock %}
 </head>
 <body>
-    <div id="content">{% block content %}{% endblock %}</div>
-    <div id="footer">
+    <header>
+        <h1>Shukudai</h1>
+        <p>Homework Tracker</p>
+    </header>
+
+    <nav>
+        <a href="/login">Log in</a> | <a href="/register".html"">Sign up</a>
+    </nav>
+
+    <main>
+        <div id="content">{% block content %}{% endblock %}</div>
+    <main>
+
+    <footer>
         {% block footer %}
         &copy; Copyright 2018 by Moo.
         {% endblock %}
-    </div>
+    </footer>
 </body>
 </html>

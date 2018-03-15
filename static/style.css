@@ -1,7 +1,9 @@
 body {
     background:#191919;
     color: #ffffff;
-    font-family: 'Roboto', sans-serif;
+    /*font-family: 'Roboto', sans-serif;*/
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 100;
     position: relative;
     width:60%;
     margin:auto;
@@ -51,8 +53,62 @@ nav a:hover{
 
 /* CONTENT */
 #content{
-	width: 600px;
+	width: 90%;
 	margin: auto;
+	/*background-color: rgba(255,255,255,0.5);*/
+}
+
+/* INDEX STYLES */
+.centered{
+	text-align: center;
+}
+.signUpBtn{
+	background-color: #a8ccff;
+	color:black;
+
+	font-size: 2em;
+	text-decoration: none;
+	text-align: center;
+
+	display:block;
+	width:150px;
+
+	margin:auto;
+	padding:5px;
+	border-radius: 3px;
+}
+.signUpBtn:hover{
+	background-color: #8cb8ff;
+}
+
+/* FORMS */
+form#registerForm {
+    margin: 0 auto;
+    width: 300px;
+    border-color: red;
+    border-width: 2em;
+    background: blue;
+    padding: 50px 15px;
+}
+input[type="text"], input[type="password"], input[type="email"] {
+    width: 100%;
+}
+input[type="submit"] {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+form#loginForm {
+    margin: 0 auto;
+    width: 300px;
+    border-color: red;
+    border-width: 2em;
+    background: blue;
+    padding: 50px 15px;
+}
+.clear{
+	clear:both;
 }
 
 /* FOOTER */

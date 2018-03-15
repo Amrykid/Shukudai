@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Register - Shukudai{% endblock %}
+{% block title %}Register{% endblock %}
 {% block head %}
     {{ super() }}
     <style type="text/css">
@@ -23,10 +23,11 @@
     </style>
 {% endblock %}
 {% block content %}
-    <h1 style="text-align: center">Register</h1>
+<div class="register">
+    <h2>Register</h2>
     <form method="POST" id="registerForm">
         {% if error %}
-        <p style='color: red'>{{ error }}</p>
+        <p class="error">{{ error }}</p>
         {% endif %}
         <label for="username">Username:</label><br>
         <input type="text" name="username"><br>
@@ -38,4 +39,18 @@
         <input type="password" name="confirmpassword"><br>
         <input type="submit" value='Submit'>
     </form>
+</div>
+<div class="login clear">
+    <h2>Login</h2>
+    <form method="POST" id="loginForm">
+        {% if error %}
+        <p style='color: red'>{{ error }}</p>
+        {% endif %}
+        <label for="username">Username:</label><br>
+        <input type="text" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" name="password"><br>
+        <input type="submit" value='Submit'>
+    </form>
+</div>
 {% endblock %}
